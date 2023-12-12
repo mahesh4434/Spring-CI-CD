@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: server
+  template:
+    metadata:
+      labels:
+        service: server
+    spec:
+      containers:
+       - name: server-service
+         image: akashz/myjava:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-entrypoint
+spec:
+  type: LoadBalancer
+  selector:
+    service: server
+  ports:
+  - port: 8080
+    targetPort: 8080
